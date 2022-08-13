@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import DogCard from '../components/DogCard';
 import HomeHeader from '../components/HomeHeader';
-import { /* getAllBreads, */ getRandomDog } from '../services/dogs';
+import { getRandomDog } from '../services/dogs';
 
 class Home extends React.Component {
   constructor() {
@@ -17,11 +17,10 @@ class Home extends React.Component {
   }
 
   componentDidMount = async () => {
-    // console.log(await getAllBreads());
     // console.log(await getRandomDog('affenpinscher'));
   };
 
-  handleSearchDog = async (bread) => {
+  handleSearchDog = async () => {
     // console.log(bread);
     // return;
 
@@ -30,7 +29,7 @@ class Home extends React.Component {
       dog: null,
     });
 
-    const data = await getRandomDog(bread.value);
+    const data = await getRandomDog();
 
     this.setState((state) => ({
       isLoading: false,
