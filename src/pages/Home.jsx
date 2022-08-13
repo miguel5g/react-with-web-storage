@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import DogCard from '../components/DogCard';
 import HomeHeader from '../components/HomeHeader';
 import { getRandomDog } from '../services/dogs';
+import { getHistory, saveHistory } from '../services/history';
 
 class Home extends React.Component {
   constructor() {
@@ -12,12 +13,12 @@ class Home extends React.Component {
     this.state = {
       isLoading: false,
       dog: null,
-      dogHistory: [] /** @todo começar com as imagens que já foram vistas */,
+      dogHistory: getHistory(),
     };
   }
 
   componentDidMount = async () => {
-    // console.log(await getRandomDog('affenpinscher'));
+    // console.log(await getRandomDog());
   };
 
   handleSearchDog = async () => {
@@ -31,11 +32,16 @@ class Home extends React.Component {
 
     const data = await getRandomDog();
 
-    this.setState((state) => ({
-      isLoading: false,
-      dog: data,
-      dogHistory: [data, ...state.dogHistory],
-    }));
+    this.setState(
+      (state) => ({
+        isLoading: false,
+        dog: data,
+        dogHistory: [data, ...state.dogHistory],
+      }),
+      () => {
+        saveHistory(this.state.dogHistory);
+      }
+    );
   };
 
   render = () => {

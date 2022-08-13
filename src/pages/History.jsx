@@ -2,15 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import DogCard from '../components/DogCard';
+import { clearHistory, getHistory } from '../services/history';
 
 class History extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      history: [] /** @todo começar com as imagens que já foram vistas */,
+      history: getHistory(),
     };
   }
+
+  handleClearHistory = () => {
+    clearHistory()
+    this.setState({
+      history: [],
+    });
+  };
 
   render = () => {
     const { history } = this.state;
@@ -40,6 +48,13 @@ class History extends React.Component {
             <Link to="/" className="mx-auto mt-4 font-light text-blue-600 underline">
               Voltar
             </Link>
+
+            <button
+              className="mx-auto mt-4 font-light text-blue-600 underline"
+              onClick={this.handleClearHistory}
+            >
+              Limpar histórico
+            </button>
           </main>
         </div>
       </div>
